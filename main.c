@@ -11,14 +11,18 @@ int main(int argc, char const *argv[])
     addLast(90, &list);
     addLast(91, &list);
     addLast(93, &list);
+    addFirst(900, &list);
     //removeLastElement(&list);
     //removeFirstElement(&list);
     addByIndex(1, 100, &list);
+    printf("\nLen list %d\n", list->length);
     printList(&list);
-    //printf("Len list %d", list->length);
-    removeByIndex(&list, 2);
+    removeByIndex(&list, 1);
+    //removeLastElement(&list);
     printf("\n\n");
+    printf("\nLen list %d\n", list->length);
     //printf("Len list %d", list->length);
     printList(&list);
+    printf("\nLen list %d\n", list->length);
     return 0;
 }

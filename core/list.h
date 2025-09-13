@@ -18,13 +18,14 @@ void init(int value, Node** list){
 void addLast(int value, Node** list){
     Node* intialization = (Node*)malloc(sizeof(Node));
     intialization->value = value;    
+    
     if(isEmpty(*list)){
         intialization->next = NULL;
         *list = intialization;
-        (*list)->length++;
+        (*list)->length = 1;
         return;
     }
-
+    int length = (*list)->length;
     Node* aux = *list;
     while ((*list)->next != NULL) *list = (*list)->next;
 
@@ -32,24 +33,28 @@ void addLast(int value, Node** list){
 
     *list = aux;
 
-    (*list)->length++;
-
+    (*list)->length = length+1;
 
 }
 
 void addFirst(int value, Node** list){
     Node* intialization = (Node*)malloc(sizeof(Node));
     intialization->value = value;
-    (*list)->length++;
+    int length = 0;
     if(isEmpty(*list)) intialization->next = NULL;
-    if(!isEmpty(*list)) intialization->next = *list;
+    if(!isEmpty(*list)) {
+        intialization->next = *list;
+        length = (*list)->length + 1;
+    }
     *list = intialization;
+    (*list)->length = length;
 }
 
 void addByIndex(int index, int value, Node** list){
     Node* intialization = (Node*)malloc(sizeof(Node));
     intialization->value = value;
     int i = 0;
+    int length = (*list)->length;
     Node* aux = *list;
     while (aux!=NULL){
         i++;
@@ -60,7 +65,7 @@ void addByIndex(int index, int value, Node** list){
     aux->next = intialization;
     intialization->next = nodeByIndex;
     *list = aux;
-    (*list)->length++;
+    (*list)->length = length+1;
     printf("\nIdx:[%d] value->%d\n", i, nodeByIndex->value);
     
 
@@ -68,14 +73,16 @@ void addByIndex(int index, int value, Node** list){
 
 void removeFirstElement(Node** list){
     if(isEmpty(*list)) return;
-    (*list)->length--;
+    int length = (*list)->length;
     Node* aux = *list;
     *list = (*list)->next;
+    (*list)->length = length-1;
     free(aux);
 }
 
 void removeLastElement(Node** list) {
     if(isEmpty(*list)) return;
+    int length = (*list)->length;
     Node* aux = *list;
     while (((*list)->next)->next != NULL) *list = (*list)->next;
     
@@ -83,32 +90,41 @@ void removeLastElement(Node** list) {
     (*list)->next = NULL;
     free(lastElement);
     *list = aux;
-    (*list)->length--;
+    (*list)->length = length-1;
     
 }
 
 void removeByIndex(Node **list, int index){
     if(isEmpty(*list)) return;
-    Node* foundNode = *list;
-    Node* aux  = *list;
-    int const n = index - 1;
-    for (int i = 0; i < n; i++) foundNode = foundNode->next;
-    Node* gotNode = foundNode->next;
-    if(gotNode->next == NULL) {
-        printf("\n-------->LAST VALUE<------------- V: %d \n ", foundNode->value);
-        foundNode->next = NULL;
-        free(gotNode);
-        *list = foundNode;
-        (*list)->length--;
+    int length = (*list)->length;
+    Node* aux = *list;
+    Node* foundNode  = *list;
+    if(index == 0){
+        removeFirstElement(&(*list));
         return;
     }
-
-    foundNode->next = gotNode->next;
-
-    *list = foundNode;
-    (*list)->length--;
-    
-
+    if(index == length-1) {
+        removeLastElement(&(*list));
+        return;
+    }
+    int const n = index - 1;
+    for (int i = 0; i <= n; i++) {
+        if(aux->next->next == NULL){
+            foundNode = aux->next;
+            aux->next = NULL;
+            break;
+        }
+        if(i==n){
+            foundNode = aux->next;
+            aux->next = aux->next->next;
+            foundNode->next = NULL;
+            break;
+        }
+        aux = aux->next;
+    }
+    *list = aux;
+    (*list)->length = length-1;
+    free(foundNode);
 }
 
 void printList(Node** list){
