@@ -31,7 +31,8 @@ int main(int argc, char const *argv[])
 
     root->ritgth = rigth;
     //preOrderTraversalSearch(root);
-    inOrderSearch(root);
+    //inOrderSearch(root);
+    postOrderSearch(root);
     printf("\nRoot value: %d. Left node: %d | Rigth Node %d\n", root->value, root->left->value, root->ritgth->value);
 
     return 0;
