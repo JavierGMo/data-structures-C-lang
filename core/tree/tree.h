@@ -25,6 +25,17 @@ void preOrderTraversalSearch(Node* tree){
 
 }
 
+void printTree(Node *tree){
+    if(isEmpty(tree)){
+        printf("-");
+        return;
+    }
+    printTree(tree->left);
+    printf("\nValue: %d", tree->value);
+    printTree(tree->ritgth);
+
+}
+
 void inOrderSearch(Node* tree){
     if(isEmpty(tree)){
         printf("\nEnd of tree\n");
@@ -44,4 +55,18 @@ void postOrderSearch(Node *tree){
     postOrderSearch(tree->left);
     postOrderSearch(tree->ritgth);
     printf("\nValue rigth: %d\n", tree->value);
+}
+
+void search(Node *tree, int toSearch){
+    if(isEmpty(tree)){ return; }
+    printf("\nvalue %d\n", tree->value);
+    if(tree->value == toSearch) {
+        printf("\nParent %d\n", tree->value);
+        return;
+    }
+    if(tree->value < toSearch){
+        search(tree->ritgth, toSearch);
+        return;
+    }
+    search(tree->left, toSearch);
 }
