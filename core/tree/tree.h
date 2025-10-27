@@ -6,6 +6,19 @@ int isEmpty(Node* tree){
     return (tree == NULL);
 }
 
+/*void createEmptyNode(Node **tree, int value){
+    *tree = (Node*)malloc(sizeof(Node));
+    (*tree)->value = value;
+}*/
+
+Node* createEmptyNode(int value){
+    Node *node = (Node*)malloc(sizeof(Node));
+    node->left = NULL;
+    node->ritgth = NULL;
+    node->value = value;
+    return node;
+}
+
 void preOrderTraversalSearch(Node* tree){
     if(isEmpty(tree)){
         printf("\nEnd of tree\n");
@@ -70,3 +83,29 @@ void search(Node *tree, int toSearch){
     }
     search(tree->left, toSearch);
 }
+
+void inserByArray(Node **tree, int *values, int* countValues, int lenValues){
+    if(isEmpty(*tree) && countValues == 0){
+        (*tree)->value = (*values)[countValues];
+        (*tree)->left = NULL;
+        (*tree)->ritgth = NULL;
+        return;
+    }
+
+    Node * newNode = createEmptyNode((*values)[countValues]);
+    if((*tree)->value > (*values)[countValues]){
+
+        (*tree)->left = newNode;
+        return;
+    }
+
+    if((*tree)->value < (*values)[countValues]){
+
+        (*tree)->ritgth = newNode;
+        return;
+    }
+
+
+
+}
+
